@@ -6,7 +6,7 @@ const {
   updateContact,
 } = require("../models/contacts.js");
 
-const { HttpError, dataValidator, ctrlWrapper } = require("../helpers");
+const { HttpError, ctrlWrapper } = require("../helpers");
 
 const getContactsList = async (req, res) => {
   const result = await listContacts();
@@ -23,13 +23,16 @@ const getContact = async (req, res) => {
 };
 
 const addNewContact = async (req, res) => {
-  const { error } = dataValidator(req.body);
-  if (error) {
-    throw HttpError(400, `missing field, ${error.message}`);
-  }
+  // const { error } = dataValidator(req.body);
+  // if (error) {
+  //   throw HttpError(400, `missing field, ${error.message}`);
+  // }
+  console.log("insideAddNewContact");
   const result = await addContact(req.body);
   res.status(201).json(result);
 };
+
+console.log(addNewContact);
 
 const deleteContact = async (req, res) => {
   const { contactId } = req.params;
@@ -42,12 +45,11 @@ const deleteContact = async (req, res) => {
 
 const changeContact = async (req, res) => {
   const { contactId } = req.params;
-  const { error } = dataValidator(req.body);
-  if (error) {
-    throw HttpError(400, "missing fields");
-  }
+  // const { error } = dataValidator(req.body);
+  // if (error) {
+  //   throw HttpError(400, "missing fields");
+  // }
   const result = await updateContact(contactId, req.body);
-  console.log(result);
   if (!result) {
     throw HttpError(404, "Not found");
   }

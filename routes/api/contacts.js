@@ -8,16 +8,20 @@ const {
   changeContact,
 } = require("../../controllers/contacts");
 
+const { validateBody } = require("../../middlewares/");
+
+const schemas = require("../../schemas/contacts");
+
 const router = express.Router();
 
 router.get("/", getContactsList);
 
 router.get("/:contactId", getContact);
 
-router.post("/", addNewContact);
+router.post("/", validateBody(schemas.addSchema), addNewContact);
 
 router.delete("/:contactId", deleteContact);
 
-router.put("/:contactId", changeContact);
+router.put("/:contactId", validateBody(schemas.addSchema), changeContact);
 
 module.exports = router;

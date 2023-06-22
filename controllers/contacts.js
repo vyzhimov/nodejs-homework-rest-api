@@ -38,7 +38,7 @@ const changeContact = async (req, res) => {
   res.json(result);
 };
 
-const updateFavorite = async (req, res) => {
+const updateStatusContact = async (req, res) => {
   const { contactId } = req.params;
 
   const result = await Contact.findByIdAndUpdate(contactId, req.body, {
@@ -67,6 +67,6 @@ module.exports = {
   getContact: ctrlWrapper(getContact),
   addNewContact: ctrlWrapper(addNewContact),
   changeContact: ctrlWrapper(changeContact),
-  updateFavorite: ctrlWrapper(updateFavorite),
+  updateStatusContact: ctrlWrapper(updateStatusContact),
   deleteContact: ctrlWrapper(deleteContact),
 };

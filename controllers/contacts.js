@@ -8,27 +8,14 @@ const getContactsList = async (req, res) => {
   const { page = 1, limit = 10, favorite = null } = req.query;
   const skip = (page - 1) * limit;
 
-  if (favorite) {
-    const result = await Contact.find(
-      { owner, favorite },
-      "-createdAt -updatedAt",
-      {
-        skip,
-        limit,
-      }
-    ).populate("owner", "email");
+  const query = favorite ? { owner, favorite } : { owner };
 
-    res.json(result);
-  }
+  const result = await Contact.find(query, "-createdAt -updatedAt", {
+    skip,
+    limit,
+  }).populate("owner", "email");
 
-  if (!favorite) {
-    const result = await Contact.find({ owner }, "-createdAt -updatedAt", {
-      skip,
-      limit,
-    }).populate("owner", "email");
-
-    res.json(result);
-  }
+  res.json(result);
 };
 
 const getContact = async (req, res) => {

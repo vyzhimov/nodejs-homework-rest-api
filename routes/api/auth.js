@@ -6,9 +6,15 @@ const {
   getCurrent,
   logout,
   updateSubscription,
+  updateAvatar,
 } = require("../../controllers/users");
 
-const { validateBody, authenticate } = require("../../middlewares");
+const {
+  validateBody,
+  authenticate,
+  upload,
+  imageHandler,
+} = require("../../middlewares");
 
 const { schemas } = require("../../models/users");
 
@@ -27,6 +33,14 @@ router.patch(
   authenticate,
   validateBody(schemas.updateSubscriptionSchema),
   updateSubscription
+);
+
+router.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  imageHandler,
+  updateAvatar
 );
 
 module.exports = router;

@@ -2,11 +2,13 @@ const express = require("express");
 
 const {
   register,
+  resendVerifyEmail,
   login,
   getCurrent,
   logout,
   updateSubscription,
   updateAvatar,
+  verifyEmail,
 } = require("../../controllers/users");
 
 const {
@@ -21,6 +23,14 @@ const { schemas } = require("../../models/users");
 const router = express.Router();
 
 router.post("/register", validateBody(schemas.registerSchema), register);
+
+router.get("/verify/:verificationToken", verifyEmail);
+
+router.post(
+  "/verify",
+  validateBody(schemas.emailVerifySchema),
+  resendVerifyEmail
+);
 
 router.post("/login", validateBody(schemas.loginSchema), login);
 
